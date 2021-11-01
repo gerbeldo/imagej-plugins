@@ -1,0 +1,20 @@
+// Aplies a high pass, FFT filter to all the images in the selected directory. Replaces de files.
+
+dir1 = getDirectory("Choose Source Directory ");
+list = getFileList(dir1);
+
+Dialog.create("Replacing files")
+Dialog.addMessage("Are you sure you want to replace the BF files in the selected folder?")
+Dialog.show()
+
+setBatchMode(true);
+for (i=0; i<list.length; i++) {
+    if(startsWith(list[i],"BF") && endsWith(list[i],".tif") ){	
+		open(dir1+list[i]);
+		run("Bandpass Filter...", "filter_large=80 filter_small=1 suppress=None tolerance=5 autoscale saturate");
+		run("Save");
+		close();
+	}
+}
+ 
+

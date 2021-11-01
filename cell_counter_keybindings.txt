@@ -1,0 +1,10 @@
+// defines macros for cell counter
+
+macro "Type 1 [1]" {call("sc.fiji.cellCounter.CellCounter.setType", "1");}
+macro "Type 2 [2]" {call("sc.fiji.cellCounter.CellCounter.setType", "2");}
+macro "Type 3 [3]" {call("sc.fiji.cellCounter.CellCounter.setType", "3");}
+macro "Type 4 [4]" {call("sc.fiji.cellCounter.CellCounter.setType", "4");}
+macro "Type 5 [5]" {call("sc.fiji.cellCounter.CellCounter.setType", "5");}
+macro "Type 6 [6]" {call("sc.fiji.cellCounter.CellCounter.setType", "6");}
+macro "Type 7 [7]" {call("sc.fiji.cellCounter.CellCounter.setType", "7");}
+macro "Type 8 [8]" {call("sc.fiji.cellCounter.CellCounter.setType", "8");}

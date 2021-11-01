@@ -1,0 +1,103 @@
+dir1 = getDirectory("Choose Source Directory ");
+dirSalida = getDirectory("Choose where you want the Stacks to be saved");
+stackSize = getNumber("Enter the size for the stacks", 0);
+list = getFileList(dir1); // Rezamos para que nos de los archivos en orden alfabÈtico
+
+if(stackSize <= 1) {
+	print("Error: the size of the stack has to be at least 2. Stack size selected: " + stackSize);
+	exit;
+}
+
+if((list.length % stackSize)!=0) {
+	print("Warning: The number of pictures in '"+dir1+"' is not a multiple of "+stackSize);
+}
+
+colorActual = "";
+posicionActual = "";
+cantidadDeFotosDeEsteStack = 0;
+
+setBatchMode(true);
+
+thisStackFirstPosition = "";
+thisStackLastPosition = "";
+
+for (i=0; i<list.length; i++) {
+	color = substring(list[i], 0, 1);
+	// Si empieza con 'S' asumimos que ya es un Stack y hay que omitirlo
+	if(color != "S") {
+		if(color == "B") {
+			color = "BF";
+		}
+		if(color == "C") {
+			color = "CFP";
+		}
+		if(color == "Y") {
+			color = "YFP";
+		}
+		if(color == "R") {
+			color = "RFP";
+		}
+		if(color == "T") {
+			color = "TFP";
+		}
+		if(colorActual == "") {
+			colorActual = color;
+		}
+		
+		posicionDesde = lengthOf(color) + 1 + 7;
+		posicionLongitud = indexOf(substring(list[i], posicionDesde), "_");
+		posicionString = substring(list[i], posicionDesde, posicionDesde+posicionLongitud);
+		
+		if(thisStackFirstPosition == "") {
+			thisStackFirstPosition = posicionString;
+		}
+		thisStackLastPosition = posicionString;
+
+		if(posicionActual == "") {
+			posicionActual = posicionString;
+		}
+		
+		if(colorActual == color) {
+			open(dir1 + list[i]);
+			cantidadDeFotosDeEsteStack++;
+
+			if(cantidadDeFotosDeEsteStack == stackSize) {
+				// Hacer el stack y guardar
+				run("Images to Stack", "name=Stack title=[] use");
+				saveAs("Tiff", dirSalida + "Stack_"+colorActual+"Positions" + thisStackFirstPosition + "-" + thisStackLastPosition + ".tif");
+
+				run("Close All");
+
+				// Reseteo las cosas
+				posicionActual  = "";
+				colorActual = "";
+				cantidadDeFotosDeEsteStack = 0;
+				thisStackFirstPosition = "";
+				thisStackLastPosition = "";
+			}
+		}
+		else {
+			// Hacer el stack y guardar
+			run("Images to Stack", "name=Stack title=[] use");
+			saveAs("Tiff", dirSalida + "Stack_"+colorActual+"Positions" + thisStackFirstPosition + "-" + thisStackLastPosition + ".tif");
+
+			run("Close All");
+
+			// Reseteo las cosas
+			posicionActual  = "";
+			colorActual = "";
+			i--;
+			cantidadDeFotosDeEsteStack = 0;
+			thisStackFirstPosition = "";
+			thisStackLastPosition = "";
+		}
+	}
+}
+
+// El ˙ltimo si no no se hace
+if(cantidadDeFotosDeEsteStack > 0) {
+	// Hacer el stack y guardar
+	run("Images to Stack", "name=Stack title=[] use");
+	saveAs("Tiff", dirSalida + "Stack_Position" + posicionActual + "_" + colorActual + ".tif");
+	run("Close All");
+}
