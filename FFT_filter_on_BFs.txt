@@ -9,12 +9,10 @@ Dialog.show()
 
 setBatchMode(true);
 for (i=0; i<list.length; i++) {
-    if(startsWith(list[i],"BF") && endsWith(list[i],".tif") ){	
+    if(startsWith(list[i],"BF") && endsWith(list[i],".tif") ){
 		open(dir1+list[i]);
 		run("Bandpass Filter...", "filter_large=80 filter_small=1 suppress=None tolerance=5 autoscale saturate");
 		run("Save");
 		close();
 	}
 }
- 
-
