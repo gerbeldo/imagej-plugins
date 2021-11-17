@@ -1,0 +1,19 @@
+//Run stack to images in batch
+
+dir1 = getDirectory("Choose Source Directory");
+dir2 = getDirectory("Choose Destination Directory");
+list = getFileList(dir1);
+
+
+setBatchMode(true);
+for (i=0; i<list.length; i++)
+{
+    if (endsWith(list[i], "tif")) //check if its a tif file before processing it
+    {
+        print("Processing file: "+list[i]); //print the file being processed
+        showProgress(i+1, list.length);
+        open(dir1+list[i]);
+        run("Image Sequence... ", "format=TIFF save=["+dir2+"]");
+        close();
+    }
+}
